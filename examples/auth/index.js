@@ -10,6 +10,7 @@ var hash = require('pbkdf2-password')()
 var path = require('path');
 var session = require('express-session');
 
+// 这里其实 module.exports 没有太多的意义了. 
 var app = module.exports = express();
 
 // config
