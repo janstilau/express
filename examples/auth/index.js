@@ -4,13 +4,13 @@
  * Module dependencies.
  */
 
-// 可以直接使用这种方式进行引用, 就和 Path 一样. 之所以可以这样引用, 是因为 ../.. 中有一个 package.json 文件. 
+// 可以直接使用这种方式进行引用, 就和 Path 一样. 之所以可以这样引用, 是因为 ../.. 中有一个 package.json 文件.
 var express = require('../..');
 var hash = require('pbkdf2-password')()
 var path = require('path');
 var session = require('express-session');
 
-// 这里其实 module.exports 没有太多的意义了. 
+// 这里其实 module.exports 没有太多的意义了.
 var app = module.exports = express();
 
 // config
@@ -20,9 +20,9 @@ app.set('views', path.join(__dirname, 'views'));
 
 // middleware
 
-// 注册中间件, 使用 urlencoded 进行解析. 这个中间件在 express 中已经内置了. 
+// 注册中间件, 使用 urlencoded 进行解析. 这个中间件在 express 中已经内置了.
 app.use(express.urlencoded({ extended: false }))
-// 注册 session 的中间件. 所谓的中间件, 就是一个 request 被处理的时候的一个环节. 
+// 注册 session 的中间件. 所谓的中间件, 就是一个 request 被处理的时候的一个环节.
 app.use(session({
   resave: false, // don't save session if unmodified
   saveUninitialized: false, // don't create session until something stored
@@ -84,7 +84,7 @@ function restrict(req, res, next) {
   }
 }
 
-// 如果不加域名的访问, 使用 redirect 来进行重定向. 
+// 如果不加域名的访问, 使用 redirect 来进行重定向.
 app.get('/', function (req, res) {
   res.redirect('/login');
 });
@@ -133,6 +133,6 @@ app.post('/login', function (req, res, next) {
 /* istanbul ignore next */
 if (!module.parent) {
   app.listen(3001);
-  // 这里为什么使用了错误的写法. 
+  // 这里为什么使用了错误的写法.
   console.log('Express started on port 3000');
 }
