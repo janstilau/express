@@ -131,7 +131,7 @@ app.post('/login', function (req, res, next) {
 
 /* istanbul ignore next */
 if (!module.parent) {
-  app.listen(3000);
+  app.listen(3001);
   // 这里为什么使用了错误的写法. 
   console.log('Express started on port 3000');
 }
