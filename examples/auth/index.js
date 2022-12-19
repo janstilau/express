@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 
+// 可以直接使用这种方式进行引用, 就和 Path 一样. 之所以可以这样引用, 是因为 ../.. 中有一个 package.json 文件. 
 var express = require('../..');
 var hash = require('pbkdf2-password')()
 var path = require('path');
@@ -18,7 +19,9 @@ app.set('views', path.join(__dirname, 'views'));
 
 // middleware
 
+// 注册中间件, 使用 urlencoded 进行解析. 这个中间件在 express 中已经内置了. 
 app.use(express.urlencoded({ extended: false }))
+// 注册 session 的中间件. 所谓的中间件, 就是一个 request 被处理的时候的一个环节. 
 app.use(session({
   resave: false, // don't save session if unmodified
   saveUninitialized: false, // don't create session until something stored
@@ -26,8 +29,7 @@ app.use(session({
 }));
 
 // Session-persisted message middleware
-
-app.use(function(req, res, next){
+app.use(function (req, res, next) {
   var err = req.session.error;
   var msg = req.session.success;
   delete req.session.error;
@@ -81,33 +83,34 @@ function restrict(req, res, next) {
   }
 }
 
-app.get('/', function(req, res){
+// 如果不加域名的访问, 使用 redirect 来进行重定向. 
+app.get('/', function (req, res) {
   res.redirect('/login');
 });
 
-app.get('/restricted', restrict, function(req, res){
+app.get('/restricted', restrict, function (req, res) {
   res.send('Wahoo! restricted area, click to <a href="/logout">logout</a>');
 });
 
-app.get('/logout', function(req, res){
+app.get('/logout', function (req, res) {
   // destroy the user's session to log them out
   // will be re-created next request
-  req.session.destroy(function(){
+  req.session.destroy(function () {
     res.redirect('/');
   });
 });
 
-app.get('/login', function(req, res){
+app.get('/login', function (req, res) {
   res.render('login');
 });
 
 app.post('/login', function (req, res, next) {
-  authenticate(req.body.username, req.body.password, function(err, user){
+  authenticate(req.body.username, req.body.password, function (err, user) {
     if (err) return next(err)
     if (user) {
       // Regenerate session when signing in
       // to prevent fixation
-      req.session.regenerate(function(){
+      req.session.regenerate(function () {
         // Store the user's primary key
         // in the session store to be retrieved,
         // or in this case the entire user object
@@ -129,5 +132,6 @@ app.post('/login', function (req, res, next) {
 /* istanbul ignore next */
 if (!module.parent) {
   app.listen(3000);
+  // 这里为什么使用了错误的写法. 
   console.log('Express started on port 3000');
 }
