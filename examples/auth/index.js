@@ -93,6 +93,14 @@ app.get('/restricted', restrict, function (req, res) {
   res.send('Wahoo! restricted area, click to <a href="/logout">logout</a>');
 });
 
+let router = express.Router()
+router.get('user/list', function (req, res) {
+  
+})
+router.post('user/list', function (req, res) {
+  
+})
+
 app.get('/logout', function (req, res) {
   // destroy the user's session to log them out
   // will be re-created next request
